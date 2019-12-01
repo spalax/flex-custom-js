@@ -34,6 +34,16 @@ const untrusted3 = `
   while(true);
 `
 
+const untrusted4 = `
+function onRequest () {
+	return {
+		get addr () {
+			while (true) {}
+		},
+	};
+}
+`;
+
 try{
 	console.log(vm.run(untrusted));
 }catch(x){
@@ -48,6 +58,12 @@ try{
 
 try{
 	console.log(vm.run(untrusted3));
+}catch(x){
+	console.log(x);
+}
+
+try{
+	console.log(vm.run(untrusted4));
 }catch(x){
 	console.log(x);
 }
