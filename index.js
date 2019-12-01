@@ -17,6 +17,7 @@ function onRequest () {
 		},
 	};
 }
+onRequest();
 `;
 
 const untrusted2 = `
@@ -42,10 +43,11 @@ function onRequest () {
 		},
 	};
 }
+onRequest();
 `;
 
 try{
-	console.log(vm.run(untrusted));
+	console.log(vm.run(untrusted).addr);
 }catch(x){
 	console.log(x);
 }
@@ -63,7 +65,7 @@ try{
 }
 
 try{
-	console.log(vm.run(untrusted4));
+	console.log(vm.run(untrusted4).addr);
 }catch(x){
 	console.log(x);
 }
