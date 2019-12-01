@@ -3,7 +3,7 @@ const userContext = {'ip': '185.128.156.162'};
 
 const untrusted5 = `
 	async function onRequest (request, response) {
-        return [new A("myhost" + (request * response) + ".com")];
+        return ["myhost" + (request * response) + ".com"];
     }
 `;
 
@@ -41,7 +41,7 @@ async function fast() {
         timeout: 1000,
         sandbox: sandbox
     });
-    vm.freeze(sandbox, 'sandbox');
+
     const codeToRun = new VMScript(untrusted5).wrap(
         '',
         wrapper
