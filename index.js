@@ -17,6 +17,7 @@ function onRequest () {
 		},
 	};
 }
+onRequest();
 `;
 
 const untrusted2 = `
@@ -42,10 +43,17 @@ function onRequest () {
 		},
 	};
 }
+onRequest();
+`;
+
+const untrusted5 = `
+Promise.resolve().then(a=>{
+		while(1){}
+	});
 `;
 
 try{
-	console.log(vm.run(untrusted));
+	console.log(vm.run(untrusted).addr);
 }catch(x){
 	console.log(x);
 }
@@ -63,7 +71,13 @@ try{
 }
 
 try{
-	console.log(vm.run(untrusted4));
+	console.log(vm.run(untrusted4).addr);
+}catch(x){
+	console.log(x);
+}
+
+try{
+	console.log(vm.run(untrusted5).addr);
 }catch(x){
 	console.log(x);
 }
