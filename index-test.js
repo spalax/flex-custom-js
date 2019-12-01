@@ -3,7 +3,7 @@ const userContext = {'ip': '185.128.156.162'};
 
 const untrusted5 = `
 	async function onRequest (request, response) {
-        return ["myhost" + (request * response) + ".com"];
+        return [new A("myhost" + (request * response) + ".com")];
     }
 `;
 
@@ -48,7 +48,8 @@ async function fast() {
     ).compile();
     return (async () => {
         const result = await vm.run(codeToRun);
-        if (typeof result !== "string") {
+        if (typeof result !== "string" ||
+            result instanceof String) {
             return 'fallback';
         }
 
