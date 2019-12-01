@@ -11,9 +11,9 @@ const wrapper = `
     (async () => {
 		const res = await onRequest(global.getRequest(), global.getResponse());
 		if (Array.isArray(res)) {
-			return res.filter((item) => (typeof res === 'string' || res instanceof String));
-		} else if (typeof res === 'string' || res instanceof String) {
-			return res;
+			return res.filter((item) => (typeof res === 'string')).map((item) => ("" + item));
+		} else if (typeof res === 'string') {
+			return ("" + res);
 		} else {
 		   return false;
 		}
