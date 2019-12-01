@@ -3,7 +3,7 @@ const userContext = {'ip': '185.128.156.162'};
 
 const untrusted5 = `
 	async function onRequest (request, response) {
-		return ["myhost" + (request * response) + ".com"];
+		return "myhost" + (request * response) + ".com";
 	}
 `;
 

@@ -5,13 +5,14 @@ const untrusted5 = `
 		return "myhost" + (request * response) + ".com";
 	}
 `;
+
 const wrapper = `
-	'use strict';
-	
+    'use strict';
+    
     (async () => {
 		const res = await onRequest(global.getRequest(), global.getResponse());
 		if (Array.isArray(res)) {
-			return res.filter((item) => (typeof res === 'string')).map((item) => ("" + item));
+			return res.filter((item) => (typeof item === 'string')).map((item) => ("" + item));
 		} else if (typeof res === 'string') {
 			return ("" + res);
 		} else {
