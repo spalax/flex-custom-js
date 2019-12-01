@@ -26,6 +26,7 @@ async function fast() {
     console.time("fast-solution");
     const context = {request: 123, response: 2};
     const sandbox = {
+        String: null,
         getRequest: () => {
             return context.request
         }, getResponse: () => {
