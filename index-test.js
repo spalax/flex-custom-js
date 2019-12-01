@@ -3,21 +3,21 @@ const userContext = {'ip': '185.128.156.162'};
 
 const untrusted5 = `
 	async function onRequest (request, response) {
-		return "myhost" + (request * response) + ".com";
-	}
+        return ["myhost" + (request * response) + ".com"];
+    }
 `;
 
 const wrapper = `
     'use strict';
-    
+
     (async () => {
 		const res = await onRequest(global.getRequest(), global.getResponse());
 		if (Array.isArray(res)) {
-			return res.filter((item) => (typeof item === 'string')).map((item) => ("" + item));
+			return res.join('|');
 		} else if (typeof res === 'string') {
-			return ("" + res);
+			return "" + res;
 		} else {
-		   return false;
+		   return "";
 		}
     })();
 `;
@@ -45,11 +45,16 @@ async function fast() {
         '',
         wrapper
     ).compile();
-    (async () => {
-        console.log(await vm.run(codeToRun));
+    return (async () => {
+        const result = await vm.run(codeToRun);
+        if (typeof result !== "string") {
+            return 'fallback';
+        }
+
+        return result.split('|');
     })();
 }
 
 (async () => {
-    await fast();
+    console.log(await fast());
 })();

@@ -1,22 +1,22 @@
 const {VM, VMScript} = require('vm2');
 const userContext = {'ip': '185.128.156.162'};
 const untrusted5 = `
-	async function onRequest (request, response) {
-		return "myhost" + (request * response) + ".com";
+    async function onRequest (request, response) {
+	    Array.prototype.map = () => ({ customObject: true });
+		return [ "myhost" + (request * response) + ".com" ];
 	}
 `;
 
 const wrapper = `
     'use strict';
-    
     (async () => {
 		const res = await onRequest(global.getRequest(), global.getResponse());
 		if (Array.isArray(res)) {
-			return res.filter((item) => (typeof item === 'string')).map((item) => ("" + item));
+			return res.join('|');
 		} else if (typeof res === 'string') {
-			return ("" + res);
+			return "" + res;
 		} else {
-		   return false;
+		   return "";
 		}
     })();
 `;
