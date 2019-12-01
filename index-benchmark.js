@@ -1,13 +1,13 @@
 const {VM, VMScript} = require('vm2');
 const userContext = {'ip': '185.128.156.162'};
-
 const untrusted5 = `
 	async function onRequest (request, response) {
 		return "myhost" + (request * response) + ".com";
 	}
 `;
-
 const wrapper = `
+	'use strict';
+	
     (async () => {
 		const res = await onRequest(global.getRequest(), global.getResponse());
 		if (Array.isArray(res)) {
@@ -96,7 +96,7 @@ async function currentSolution() {
             timeout: 1000,
             sandbox: {
                 getRequest: () => 123 + i,
-                getResponse:() => 2
+                getResponse: () => 2
             }
         });
         await vm.run(codeToRun);
