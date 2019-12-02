@@ -2,7 +2,7 @@ const {VM, VMScript} = require('vm2');
 const userContext = {'ip': '185.128.156.162'};
 
 const untrusted5 = `
-    function onRequest (request, response) {
+    async function onRequest (request, response) {
         return ["myhost" + (request * response) + ".com"];
     }
 `;
@@ -48,7 +48,7 @@ async function fast() {
         wrapper
     ).compile();
     return (async () => {
-        const result = vm.run(codeToRun);
+        const result = await vm.run(codeToRun);
         if (typeof result !== "string" ||
             result instanceof String) {
             return 'fallback';
