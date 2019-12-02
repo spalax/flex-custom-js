@@ -2,7 +2,7 @@ const {VM, VMScript} = require('vm2');
 const userContext = {'ip': '185.128.156.162'};
 
 const untrusted5 = `
-	async function onRequest (request, response) {
+    function onRequest (request, response) {
         return ["myhost" + (request * response) + ".com"];
     }
 `;
@@ -27,6 +27,7 @@ async function fast() {
     const context = {request: 123, response: 2};
     const sandbox = {
         String: null,
+        Promise: null,
         getRequest: () => {
             return context.request
         }, getResponse: () => {
@@ -47,12 +48,11 @@ async function fast() {
         wrapper
     ).compile();
     return (async () => {
-        const result = await vm.run(codeToRun);
+        const result = vm.run(codeToRun);
         if (typeof result !== "string" ||
             result instanceof String) {
             return 'fallback';
         }
-
         return result.split('|');
     })();
 }
